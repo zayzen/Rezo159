@@ -19,36 +19,37 @@ reponse = s.recv(1024).decode('utf-8')
 print reponse
 
 #On demande au joueur de saisir son nom
-nom = raw_input("--- Nom du joueur ? ")
+nom = raw_input("--- Nom du joueur: ")
 #On envoie la commande joueur suivit du nom de joueur
 s.send("joueur "+nom)
-#On affiche le nom du joueur
-print(">>> %s" % nom)
 
 #On recoit le nom du joueur adverse
 reponse = s.recv(1024).decode('utf-8')
-#On affiche la reponse du serveur
-print("<<< %s" %reponse)
 #On affiche le nom du joueur adverse
 l = reponse.split(' ')
-print("--- L'autre joueur s'appelle "+l[1])
+print("--- L'adversaire s'appelle "+l[1])
 
 
-
-tablier = input("--- Taille du tablier ?")
+#On demande la taille du tablier
+tablier = input("--- Taille du tablier ")
 s.send("tablier "+str(tablier))
 
+#On recoit la taille du tablier choisie par l'adversaire
 reponse = s.recv(1024).decode('utf-8')
-print reponse
+print("--- L'adversaire choisi: "+reponse)
 
-
-joue = raw_input("--- Ou jouer ? ")
+#On demande la case a jouer
+joue = raw_input("--- Ou jouer : ")
 s.send("joue "+joue)
 
+#On recoit le coup de l'adversaire
 reponse = s.recv(1024).decode('utf-8')
-print reponse
+print("--- L'adversaire "+reponse)
 
+#Au revoir
 s.send("aurevoir")
+print("aurevoir")
 
+#Au revoir de l'adversaire
 reponse = s.recv(1024).decode('utf-8')
 print reponse

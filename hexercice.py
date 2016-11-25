@@ -36,6 +36,16 @@ class Aurevoir(Exception):
 def CoupJoueur(gui, i, j):
 	""" le joueur joue sur la cellule (i,j) """	
 	# To do ! Vous devez programmer cette fonction.
+	if(hv.monTour = True):
+		if(CoupValide(i, j) = True:
+			coor = PlateauToTablierCoord(i, j)
+			sendcmd("joue" "coor")
+			JouerUnCoup(i, j)
+			hv.monTour = False
+		else:
+			print("ce n est pas un coup valide")
+	else:
+		print("ce n est pas ton tour de jouer")
 	pass
 
 def CoupAdversaire(gui):
