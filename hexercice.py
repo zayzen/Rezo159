@@ -1,5 +1,4 @@
 #-----------------------------------------------------------------------------------------
-#Coin Coin c'est la plus belle
 import random
 from sys import argv
 import math
