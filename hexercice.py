@@ -39,7 +39,7 @@ def CoupJoueur(gui, i, j):
 	if(hv.monTour == True):
 		if(CoupValide(i, j) == True):
 			sendcmd("joue", PlateauToTablierCoord(i, j))
-			JouerUnCoup(gui, i, j, hv.numJoueur)
+			JouerUnCoup(gui, i, j, 2)
 			hv.monTour = False
 		else:
 			print("ce n est pas un coup valide")
@@ -50,7 +50,26 @@ def CoupAdversaire(gui):
 	""" traite les commandes et coups de l'adversaire """
 	# To do ! Vous devez programmer cette fonction.
 	(cmd, arg) = recvcmd("joue", "bravo", "oups", "aurevoir")
-	
+	if(cmd == "bravo"):
+		raise Bravo
+	elif(cmd == "oups"):
+		raise Oups()
+	elif(cmd == "aurevoir"):
+		raise Aurevoir
+	elif(cmd == "joue"):
+		(i, j) = TablierToPlateauCoord(arg)
+		if(hv.monTour == False):
+			if(CoupValide(i, j) == True):
+				if(JouerUnCoup(gui, i, j, 1) == True):
+					sendcmd("bravo", "")
+			hv.monTour = True
+		else:
+			if(hv.monTour == True):
+				print(">>Ce n'est pas votre tour")
+			else:
+				sendcmd("oups", "")
+
+
 
 #-----------------------------------------------------------------------------------------
 
