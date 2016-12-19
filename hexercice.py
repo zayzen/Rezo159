@@ -39,7 +39,7 @@ def CoupJoueur(gui, i, j):
 	if(hv.monTour == True):
 		if(CoupValide(i, j) == True):
 			sendcmd("joue", PlateauToTablierCoord(i, j))
-			JouerUnCoup(gui, i, j, 2)
+			JouerUnCoup(gui, i, j, hv.numJoueur)
 			hv.monTour = False
 		else:
 			print("ce n est pas un coup valide")
@@ -47,6 +47,11 @@ def CoupJoueur(gui, i, j):
 		print("ce n est pas ton tour de jouer")
 
 def CoupAdversaire(gui):
+	numAdversaire = 0
+	if hv.numJoueur == 1:
+		numAdversaire = 2
+	elif hv.numJoueur == 2:
+		numAdversaire = 1
 	""" traite les commandes et coups de l'adversaire """
 	# To do ! Vous devez programmer cette fonction.
 	(cmd, arg) = recvcmd("joue", "bravo", "oups", "aurevoir")
@@ -60,7 +65,7 @@ def CoupAdversaire(gui):
 		(i, j) = TablierToPlateauCoord(arg)
 		if(hv.monTour == False):
 			if(CoupValide(i, j) == True):
-				if(JouerUnCoup(gui, i, j, 1) == True):
+				if(JouerUnCoup(gui, i, j, numAdversaire) == True):
 					sendcmd("bravo", "")
 			hv.monTour = True
 		else:
@@ -210,10 +215,10 @@ def initServeur(arguments):
 		# To do ! Pour supporter l'extension pileouface, vous devez implémenter ce morceau de code
 		pass
 	else:
-		hv.monTour = True
-		print("--- C'est moi qui commence.")
+		hv.monTour = False
+		print("--- Je ne commence pas.")
 
-	hv.numJoueur = 2
+	hv.numJoueur = 1
 	print("--- J'ai la couleur", hv.couleurs[hv.numJoueur])
 	pass
 
