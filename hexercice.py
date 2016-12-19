@@ -173,6 +173,48 @@ def initClient(arguments):
 def initServeur(arguments):
 	""" initialisation du serveur """
 	# To do ! Pour programmer le serveur, vous devez implémenter cette fonction
+	s = socket()
+	s.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+
+	s.bind(('0.0.0.0',6666))
+	s.listen(1)
+	sc, addr = s.accept()
+
+	#listeExtensions est une liste contenant toutes les extensions passées sur la ligne de commande
+	listeExtensions = [key for key in arguments if arguments[key]==True]
+	
+	
+	hv.gs = sc
+	
+	#bonjour extension1 extension2 ...
+	(cmd, args) = recvcmd('bonjour')
+	sendcmd('bonjour', ' '.join(listeExtensions))
+	extensionsSupportees = []
+	if len(args)>0 :
+		extensionsSupportees = [param for param in args.split(' ') if arguments[param]]
+	print("--- Extensions supportées par les deux joueurs :", extensionsSupportees)
+	
+	#joueur NomJoueur
+	(cmd,args)=recvcmd('joueur')
+	sendcmd('joueur', arguments["NomJoueur"])
+	NomAutreJoueur = args
+	print("--- L'autre joueur s'appelle %s." % NomAutreJoueur)
+	
+	#tablier taille1 taille2 ...
+	(cmd,args) = recvcmd('tablier')
+	sendcmd('tablier', ' '.join(arguments["tablier"]))
+	hv.taille = int(args)
+	print("--- Le serveur a choisi un tablier de taille %s" % hv.taille)
+
+	if "pileouface" in extensionsSupportees:
+		# To do ! Pour supporter l'extension pileouface, vous devez implémenter ce morceau de code
+		pass
+	else:
+		hv.monTour = True
+		print("--- C'est moi qui commence.")
+
+	hv.numJoueur = 1
+	print("--- J'ai la couleur", hv.couleurs[hv.numJoueur])
 	pass
 
 
