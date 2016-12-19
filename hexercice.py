@@ -213,7 +213,7 @@ def initServeur(arguments):
 		hv.monTour = True
 		print("--- C'est moi qui commence.")
 
-	hv.numJoueur = 1
+	hv.numJoueur = 2
 	print("--- J'ai la couleur", hv.couleurs[hv.numJoueur])
 	pass
 
