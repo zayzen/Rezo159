@@ -36,22 +36,34 @@ class Aurevoir(Exception):
 def CoupJoueur(gui, i, j):
 	""" le joueur joue sur la cellule (i,j) """	
 	# To do ! Vous devez programmer cette fonction.
-	if(hv.monTour = True):
-		if(CoupValide(i, j) = True:
-			coor = PlateauToTablierCoord(i, j)
-			sendcmd("joue" "coor")
+	if(hv.monTour == True):
+		if(CoupValide(i, j) == True):
+			sendcmd("joue", PlateauToTablierCoord(i, j))
 			JouerUnCoup(i, j)
 			hv.monTour = False
 		else:
 			print("ce n est pas un coup valide")
 	else:
 		print("ce n est pas ton tour de jouer")
-	pass
 
 def CoupAdversaire(gui):
 	""" traite les commandes et coups de l'adversaire """
 	# To do ! Vous devez programmer cette fonction.
-	pass
+	(cmd, arg) = recvcmd("joue", "bravo", "oups", "aurevoir")
+	for step in {
+		"bravo": print("Bravo. Fin de partie"),
+		"oups" : print("Oups. Coup illegal."),
+		"aurevoir" : print("Aurevoir.")
+	}.get(cmd, ()): step()
+	if(cmd == "joue"):
+		coordAdv = TablierToPlateauCoord(arg)
+		if(hv.monTour == false and CoupValide(coordAdv)):
+			if(JouerUnCoup(coordAdv) == True):
+				sendcmd("bravo" " ")
+				hv.monTour = True
+		else:
+			print ("Coup Illegal")
+			sendcmd("oups")
 
 #-----------------------------------------------------------------------------------------
 
