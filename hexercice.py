@@ -12,6 +12,10 @@ from socket import socket, SOL_SOCKET, SO_REUSEADDR
 
 import hexvars as hv
 from hexutils import sendcmd, recvcmd, PlateauToTablierCoord, TablierToPlateauCoord, CellulesVoisines, CoupValide, Gagnant, JouerUnCoup
+
+from uuid import uuid4
+from random import randint
+from hashlib import sha256
 #-----------------------------------------------------------------------------------------
 
 #-----------------------------------------------------------------------------------------
@@ -131,6 +135,9 @@ def QuitterPartie(gui):
 
 
 #-----------------------------------------------------------------------------------------
+def f(a, b, c):
+	return sha256(' '.join([a,b,str(c)]).encode('utf8')).hexdigest()
+
 def initClient(arguments):
 	""" initialisation du client """
 	
@@ -166,7 +173,38 @@ def initClient(arguments):
 
 	if "pileouface" in extensionsSupportees:
 		# To do ! Pour supporter l'extension pileouface, vous devez implémenter ce morceau de code
-		pass
+		x = str(uuid4())
+		random = randint(0, 1)
+		p = ""
+		if(random == 0):
+			p = "pile"
+		else:
+			p = "face"
+
+		#On envoie x au serveur
+		sendcmd('pileouface', x)
+
+		#On reçoit f(x, y, t)
+		(cmd, arg) = recvcmd('pileouface')
+		sha_serveur = arg
+
+
+		#On envoie p au serveur
+		sendcmd('pileouface', p)
+
+
+		#On recoit y du serveur
+		(cmd, y) = recvcmd('pileouface') 
+
+		sha_client = f(x, y, p)
+
+
+		if(sha_serveur == sha_client):
+			hv.monTour = True
+			print("--- C'est moi qui commence")
+		else:	
+			hv.monTour = False
+			print("--- Ce n'est pas moi qui commence")
 	else:
 		hv.monTour = True
 		print("--- C'est moi qui commence.")
@@ -213,14 +251,43 @@ def initServeur(arguments):
 
 	if "pileouface" in extensionsSupportees:
 		# To do ! Pour supporter l'extension pileouface, vous devez implémenter ce morceau de code
-		pass
+		y = str(uuid4())
+		t = ""
+		if(random == 0):
+			t = "pile"
+		else:
+			t = "face"
+
+		#On reçoit x du client
+		(cmd, x) = recvcmd("pileouface")
+
+
+		#On envoit f(x, y, t) au client
+		sha_serveur = f(x, y, t)
+		sendcmd('pileouface', sha_serveur)
+
+
+		#On reçoit p du client
+		(cmd, p) = recvcmd('pileouface')
+
+
+		#On envoie y au client
+		sendcmd('pileouface', y)
+
+
+		if (t == p):
+			hv.monTour = False
+			print("--- Ce n'est pas moi qui commence.")
+		else:
+			hv.monTour = True
+			print("--- C'est moi qui commence.")
+
 	else:
 		hv.monTour = False
 		print("--- Je ne commence pas.")
 
 	hv.numJoueur = 1
 	print("--- J'ai la couleur", hv.couleurs[hv.numJoueur])
-	pass
 
 
 def init(arguments):	
