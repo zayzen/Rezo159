@@ -198,10 +198,17 @@ def initClient(arguments):
 
 		sha_client = f(x, y, p)
 
+		#On reçoit t du serveur
+		(cmd, t) = recvcmd('pileouface')
+
 
 		if(sha_serveur == sha_client):
-			hv.monTour = True
-			print("--- C'est moi qui commence")
+			if(p == t):
+				hv.monTour = True
+				print("--- C'est moi qui commence")
+			else:	
+				sendcmd('aurevoir')
+				QuitterPartie(gui)
 		else:	
 			hv.monTour = False
 			print("--- Ce n'est pas moi qui commence")
@@ -273,6 +280,9 @@ def initServeur(arguments):
 
 		#On envoie y au client
 		sendcmd('pileouface', y)
+
+		#On envoie t au client
+		sendcmd('pileouface', t)
 
 
 		if (t == p):
