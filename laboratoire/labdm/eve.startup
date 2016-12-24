@@ -1,0 +1,2 @@
+#### TODO : configurer les deux interfaces réseau
+/etc/init.d/quagga start
