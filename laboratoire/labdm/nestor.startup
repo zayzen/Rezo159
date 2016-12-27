@@ -1,4 +1,13 @@
 ### TODO : configurer l'adresse IP et la passerelle
+
+### On décerne à Nestor, de manière arbitraire, la deuxième adresse du bloc 172.23.80.0/23 sur l'interface eth0
+ifconfig eth0 172.23.80.2/23
+
+
+### On ajoute à sa table de routage la route par défaut qui passe par le routeur eve
+route add default gw 172.23.80.254 dev eth0
+
+
 chown alice:alice /home/alice
 chmod og-rwx /etc/exim4/exim4.conf
 /etc/init.d/bind start
