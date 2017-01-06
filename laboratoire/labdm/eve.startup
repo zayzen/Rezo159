@@ -4,6 +4,6 @@
 ifconfig eth0 172.23.80.254/23
 
 ### On configure une autre inteface avec le FAI
-if config eth1 42.25.24.65/8
+ifconfig eth1 42.25.24.65/8
 
 /etc/init.d/quagga start
