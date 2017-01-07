@@ -1,0 +1,9 @@
+#### TODO : configurer les deux interfaces réseau
+
+### On décerne à eve, de manière arbitraire, la dernière adresse du bloc 172.23.80.0/23 sur l'interface eth0
+ifconfig eth0 172.23.80.254/23
+
+### On configure une autre inteface avec le FAI
+ifconfig eth1 42.25.24.65/8
+
+/etc/init.d/quagga start

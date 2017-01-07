@@ -1,0 +1,18 @@
+$TTL	60000
+@		IN	SOA	nestor.estami.net.	alice.estami.net. (
+			1 ; serial
+			28 ; refresh
+			14 ; retry
+			3600000 ; expire
+			60000 ; negative cache ttl
+			)
+@		IN	NS	nestor.estami.net.
+@		IN 	MX 5	pop.estami.net.
+@		IN 	MX 5	smtp.estami.net.
+nestor	IN	A 		172.23.80.2
+imap	IN	A 		172.23.80.2
+smtp	IN	A 		172.23.80.2
+pop	IN	A 		172.23.80.2
+
+; TODO : adresse IP de nestor et des alias smtp, pop et imap
+; TODO : configuration du serveur SMTP entrant

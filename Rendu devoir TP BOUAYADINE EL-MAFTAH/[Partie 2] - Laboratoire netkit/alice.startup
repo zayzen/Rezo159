@@ -1,0 +1,10 @@
+### TODO : configurer l'adresse IP, la passerelle et l'adresse du serveur DNS
+
+### On décerne à Alice, de manière arbitraire, la première adresse du bloc 172.23.80.0/23 sur l'interface eth0
+ifconfig eth0 172.23.80.1/23
+
+### On ajoute à sa table de routage la route par défaut qui passe par le routeur eve
+route add default gw 172.23.80.254 dev eth0
+
+### Enfin, on le renseigne sur l'adresse de nestor, son DNS
+echo "nameserver 172.23.80.2" > /etc/resolv.conf

@@ -1,0 +1,52 @@
+Blocs d'adressage utilisé:
+younes.bouayadine 	42.25.24.65/8		173.23.80.0/23
+
+=============== alice.startup =============== 
+
+-> On décerne à Alice, de manière arbitraire, la première adresse du bloc 172.23.80.0/23 sur l'interface eth0
+ifconfig eth0 172.23.80.1/23
+
+-> On ajoute à sa table de routage la route par défaut qui passe par le routeur eve
+route add default gw 172.23.80.254 dev eth0
+
+-> Enfin, on le renseigne sur l'adresse de nestor, son DNS
+echo "nameserver 172.23.80.2" > /etc/resolv.conf
+
+
+=============== eve.startup =============== 
+
+-> On décerne à eve, de manière arbitraire, la dernière adresse du bloc 172.23.80.0/23 sur l'interface eth0
+ifconfig eth0 172.23.80.254/23
+
+-> On configure une autre inteface avec le FAI
+ifconfig eth1 42.25.24.65/8
+
+=============== nestor.startup ===============
+
+-> On décerne à Nestor, de manière arbitraire, la deuxième adresse du bloc 172.23.80.0/23 sur l'interface eth0
+ifconfig eth0 172.23.80.2/23
+
+
+-> On ajoute à sa table de routage la route par défaut qui passe par le routeur eve
+route add default gw 172.23.80.254 dev eth0
+
+
+=============== dnsnet.startup =============== 
+
+-> On remplace 127.0.0.1 par l'adresse IP de nestor.estami.net
+echo "nestor.estami	IN	A	172.23.80.2" >> /etc/bind/db.net
+
+
+=============== nestor/etc/bind/db.net.estami ===============
+
+On configure le serveur entrant en fonction des différents protocoles
+@		IN 	MX 5	pop.estami.net.
+@		IN 	MX 5	smtp.estami.net.
+On lie l'adresse ip de nestor (172.23.80.2/23) aux différents services mails
+nestor	IN	A 		172.23.80.2
+imap	IN	A 		172.23.80.2
+smtp	IN	A 		172.23.80.2
+pop	IN	A 		172.23.80.2
+
+
+
